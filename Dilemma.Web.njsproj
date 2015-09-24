@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="server\www" />
+    <Content Include="index.html" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="views\index.html" />

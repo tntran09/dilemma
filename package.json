@@ -3,15 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./server/www"
   },
   "description": "Dilemma.Web",
   "author": {
     "name": "toan.n.tran",
     "email": ""
-  },
-  "devDependencies": {
-    
   },
   "dependencies": {
     "express": "~4.9.0",
