@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>Dilemma.Web</Name>
     <RootNamespace>Dilemma.Web</RootNamespace>
+    <Environment>debug=Dilemma.Web</Environment>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,7 +13,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e14f7da6-8e01-4b6d-91d9-ae6a7c9298e4</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>bin\www</StartupFile>
+    <StartupFile>app.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,19 +32,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="server\www" />
+    <Compile Include="gulpfile.js" />
+    <Compile Include="public\scripts\third.js" />
+    <Compile Include="public\scripts\third.min.js" />
+    <Content Include=".gitignore" />
     <Content Include="index.html" />
     <Content Include="package.json" />
+    <Content Include="public\styles\bootstrap.css" />
+    <Content Include="public\styles\bootstrap.min.css" />
+    <Content Include="public\styles\main.css" />
     <Content Include="README.md" />
     <Content Include="views\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="server\" />
     <Folder Include="public\" />
-    <Folder Include="public\images\" />
-    <Folder Include="public\javascripts\" />
-    <Folder Include="public\stylesheets\" />
-    <Folder Include="routes\" />
+    <Folder Include="public\img\" />
+    <Folder Include="public\scripts\" />
+    <Folder Include="public\styles\" />
     <Folder Include="views\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
