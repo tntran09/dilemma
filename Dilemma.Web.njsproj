@@ -43,6 +43,7 @@
     <Content Include="public\styles\main.css" />
     <Content Include="README.md" />
     <Content Include="views\index.html" />
+    <Content Include="views\new.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />

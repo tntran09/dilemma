@@ -8,33 +8,33 @@
     <link rel="stylesheet" href="public/styles/main.css" />
 </head>
 <body ng-controller="mainCtrl">
-    <header>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
-                <div class="navbar-header">
-
+                <div class="row">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4 navbar-text">
+                        <div class="text-center" ng-non-bindable>
+                            <a href="#">{{TITLE}}</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4"></div>
                 </div>
             </div>
         </nav>
-    </header>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 class="text-center">._.</h1>
+    <ng-view></ng-view>
 
-                <button class="btn btn-block btn-lg btn-default">New</button>
-                
-            </div>
-        </div>
-    </div>
-
-    <!--<script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/node_modules/angular/angular.min.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
     <script src="public/scripts/third.min.js"></script>
     <script>
-        angular.module('gutCheck', [])
+        angular.module('gutCheck', ['ngRoute'])
+        .config(function ($routeProvider) {
+            $routeProvider.when('/new', {
+                templateUrl: '/views/new.html'
+            })
+            .otherwise({
+                templateUrl: '/views/splash.html'
+            });
+        })
         .controller('mainCtrl', function ($scope) {
             $scope.hello = 'world';
         });

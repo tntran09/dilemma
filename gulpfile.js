@@ -1,5 +1,6 @@
 ﻿var gulp = require('gulp');
 var concat = require('gulp-concat');
+// gulp-sourcemaps
 
 gulp.task('hello', function () {
     console.log('hello gulp!')
@@ -10,12 +11,14 @@ gulp.task('copy_scripts', function () {
     var scripts = [
         'node_modules/jquery/dist/jquery.js',
         'node_modules/angular/angular.js',
+        'node_modules/angular-route/angular-route.js',
         'node_modules/bootstrap/dist/js/bootstrap.js'
     ];
     // jquery, angular, bootstrap scripts, minified
     var minScripts = [
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/angular/angular.min.js',
+        'node_modules/angular-route/angular-route.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js'
     ];
 

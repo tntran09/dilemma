@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "debug": "set debug=Dilemma.Web && node ./app.js",
     "start": "node ./app.js"
   },
   "description": "Dilemma.Web",
@@ -11,7 +12,8 @@
     "email": ""
   },
   "dependencies": {
-    "angular": "^1.4.6",
+    "angular": "1.4.7",
+    "angular-route": "1.4.7",
     "bootstrap": "^3.3.5",
     "express": "~4.9.0",
     "jquery": "^2.1.4"
