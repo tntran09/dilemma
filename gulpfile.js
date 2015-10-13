@@ -50,5 +50,10 @@ gulp.task('copy_styles', function () {
         .pipe(gulp.dest('public/styles'));
 })
 
-gulp.task('copy', ['copy_scripts', 'copy_styles']);
+gulp.task('copy_fonts', function () {
+    gulp.src('node_modules/bootstrap/dist/fonts/*')
+        .pipe(gulp.dest('public/fonts'));
+})
+
+gulp.task('copy', ['copy_scripts', 'copy_styles', 'copy_fonts']);
 gulp.task('default', ['hello']);

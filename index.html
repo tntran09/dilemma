@@ -8,19 +8,28 @@
     <link rel="stylesheet" href="public/styles/main.css" />
 </head>
 <body ng-controller="mainCtrl">
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-4"></div>
-                    <div class="col-xs-4 navbar-text">
-                        <div class="text-center" ng-non-bindable>
-                            <a href="#">{{TITLE}}</a>
-                        </div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-4 navbar-text">
+                    <div ng-show="!onSplash()">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            Back
+                        </a>
                     </div>
-                    <div class="col-xs-4"></div>
                 </div>
+
+                <div class="col-xs-4 navbar-text">
+                    <div class="text-center" ng-non-bindable>
+                        <a href="#">{{PAGE TITLE}}</a>
+                    </div>
+                </div>
+
+                <div class="col-xs-4"></div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
     <ng-view></ng-view>
 
@@ -35,8 +44,12 @@
                 templateUrl: '/views/splash.html'
             });
         })
-        .controller('mainCtrl', function ($scope) {
+        .controller('mainCtrl', function ($scope, $location) {
             $scope.hello = 'world';
+
+            $scope.onSplash = function () {
+                return $location.path() === "";
+            }
         });
     </script>
 </body>

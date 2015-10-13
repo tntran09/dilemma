@@ -42,7 +42,7 @@
     <Content Include="public\styles\bootstrap.min.css" />
     <Content Include="public\styles\main.css" />
     <Content Include="README.md" />
-    <Content Include="views\index.html" />
+    <Content Include="views\splash.html" />
     <Content Include="views\new.html" />
   </ItemGroup>
   <ItemGroup>
