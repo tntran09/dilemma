@@ -33,20 +33,28 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="gulpfile.js" />
+    <Compile Include="public\scripts\main.js" />
     <Compile Include="public\scripts\third.js" />
     <Compile Include="public\scripts\third.min.js" />
     <Content Include=".gitignore" />
     <Content Include="index.html" />
     <Content Include="package.json" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="public\styles\bootstrap.css" />
     <Content Include="public\styles\bootstrap.min.css" />
     <Content Include="public\styles\main.css" />
     <Content Include="README.md" />
+    <Content Include="views\factors.html" />
     <Content Include="views\splash.html" />
     <Content Include="views\new.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
+    <Folder Include="public\fonts\" />
     <Folder Include="public\img\" />
     <Folder Include="public\scripts\" />
     <Folder Include="public\styles\" />

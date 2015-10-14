@@ -2,9 +2,14 @@
 
 span.error {
     color: red;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 #newForm textarea {
     font-size: 5em;
+}
+
+.navbar-text {
+    margin-left: 0px;
+    margin-right: 0px;
 }

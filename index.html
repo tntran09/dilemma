@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="public/styles/main.css" />
 </head>
 <body ng-controller="mainCtrl">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-4 navbar-text">
@@ -34,23 +34,6 @@
     <ng-view></ng-view>
 
     <script src="public/scripts/third.min.js"></script>
-    <script>
-        angular.module('gutCheck', ['ngRoute'])
-        .config(function ($routeProvider) {
-            $routeProvider.when('/new', {
-                templateUrl: '/views/new.html'
-            })
-            .otherwise({
-                templateUrl: '/views/splash.html'
-            });
-        })
-        .controller('mainCtrl', function ($scope, $location) {
-            $scope.hello = 'world';
-
-            $scope.onSplash = function () {
-                return $location.path() === "";
-            }
-        });
-    </script>
+    <script src="public/scripts/main.js"></script>
 </body>
 </html>
