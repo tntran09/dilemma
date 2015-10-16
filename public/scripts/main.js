@@ -1,17 +1,21 @@
 ﻿angular.module('gutCheck', ['ngRoute'])
-    .config(function ($routeProvider) {
+.config(function ($routeProvider) {
     $routeProvider.when('/new', {
         templateUrl: '/views/new.html'
     })
-                .when('/factors', {
+    .when('/factors', {
         templateUrl: '/views/factors.html'
     })
-                .otherwise({
+    .otherwise({
         templateUrl: '/views/splash.html'
     });
 })
-    .controller('mainCtrl', function ($scope, $location) {
-    $scope.hello = 'world';
+.controller('mainCtrl', function ($scope, $location) {
+    $scope.pageTitle = 'DILEMMA';
+    
+    $scope.dilemma = {
+        query: ''
+    };
     
     $scope.onSplash = function () {
         return $location.path() === "";
