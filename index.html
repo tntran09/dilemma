@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="public/styles/bootstrap.min.css" />
     <link rel="stylesheet" href="public/styles/main.css" />
 </head>
-<body ng-controller="mainCtrl">
+<body ng-controller="mainCtrl as mainCtrl">
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid">
             <div class="row">
@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="col-xs-4 navbar-text">
-                    <div class="text-center" ng-non-bindable>
-                        <a href="#">{{PAGE TITLE}}</a>
+                    <div class="text-center">
+                        {{pageTitle}}
                     </div>
                 </div>
 

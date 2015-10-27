@@ -1,26 +1,26 @@
-﻿<div class="container">
+﻿<div class="container" ng-controller="newCtrl as newCtrl">
     <div class="row">
-        <div class="col-xs-12">
-            <form name="newForm" id="newForm">
+        <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.submitNewQuery()" novalidate>
+            <div class="col-xs-12">
                 <div class="form-group">
                     <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="dilemma.query" required></textarea>
-                    <span class="error" ng-show="newForm.query.$error.required && newForm.query.$dirty">Please enter something</span>
+                    <span class="error" ng-show="newCtrl.showNewQueryError()">Please enter something</span>
                 </div>
-            </form>
-        </div>
-        <div class="col-xs-12">
-            <p class="text-center">
-                Tip: Yes/no dilemmas work the best
-            </p>
-            <p class="text-center">
-                ._.
-            </p>
-            <p class="text-center">
-                <a class="btn btn-lg btn-primary" href="#/factors" value="Next">
-                    Next
-                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                </a>
-            </p>
-        </div>
+            </div>
+            <div class="col-xs-12">
+                <p class="text-center">
+                    Tip: Yes/no dilemmas work the best
+                </p>
+                <p class="text-center">
+                    ._.
+                </p>
+                <p class="text-center">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Next
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </p>
+            </div>
+        </form>
     </div>
 </div>
