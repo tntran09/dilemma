@@ -10,37 +10,45 @@
         templateUrl: '/views/splash.html'
     });
 })
-.controller('mainCtrl', function ($scope, $location, $rootScope) {
-    $scope.dilemma = {
-        query: '',
-        factors: []
-    };
+.factory('dataSvc', function () {
+    var _pageTitle = ''
     
-    $scope.onSplash = function () {
+    return {
+        get pageTitle() { return _pageTitle; },
+        set pageTitle(t) {
+            if (t === null || typeof (t) === 'string') {
+                _pageTitle = t;
+            }
+        }
+    };
+})
+.controller('mainCtrl', function ($location, dataSvc) {
+    var mainCtrl = this;
+
+    mainCtrl.pageTitle = dataSvc.__lookupGetter__('pageTitle');
+    
+    mainCtrl.onSplash = function () {
         return $location.path() === "";
     }
 })
-.controller('splashCtrl', function ($scope, $rootScope) {
-    $rootScope.pageTitle = 'DILEMMA';
+.controller('splashCtrl', function (dataSvc) {
+    dataSvc.pageTitle = 'DILEMMA';
 })
-.controller('newCtrl', function ($scope, $rootScope, $location) {
+.controller('newCtrl', function ($location, dataSvc) {
     var newCtrl = this;
-    var attemptedSubmission = false;
 
-    $rootScope.pageTitle = 'NEW';
+    dataSvc.pageTitle = 'NEW';
 
     newCtrl.showNewQueryError = function () {
-        return newCtrl.newForm.query.$error.required && (attemptedSubmission || newCtrl.newForm.query.$dirty);
+        return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
     
     newCtrl.submitNewQuery = function () {
-        attemptedSubmission = true;
-        
         if (newCtrl.newForm.$valid) {
             $location.path('/factors');
         }
     }
 })
-.controller('factorsCtrl', function ($scope, $rootScope) {
-    $rootScope.pageTitle = 'FACTORS';
+.controller('factorsCtrl', function (dataSvc) {
+    dataSvc.pageTitle = 'FACTORS';
 });

@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-4 navbar-text">
-                    <div ng-show="!onSplash()">
+                    <div ng-show="!mainCtrl.onSplash()">
                         <a href="#">
                             <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                             Back
@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="col-xs-4 navbar-text">
-                    <div class="text-center">
-                        {{pageTitle}}
+                    <div class="text-center" ng-cloak>
+                        {{mainCtrl.pageTitle()}}
                     </div>
                 </div>
 

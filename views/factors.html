@@ -1,7 +1,17 @@
 ﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
     <div class="row">
         <div class="well well-lg">
-            {{dilemma.query}}
+            <h1 class="text-center">{{mainCtrl.dilemma.query}} (big font)</h1>
+            <p class="text-center">
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Calculate
+                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                </button>
+            </p>
         </div>
+    </div>
+
+    <div class="row" ng-repeat="f in dilemma.factors">
+
     </div>
 </div>

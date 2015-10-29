@@ -3,7 +3,8 @@
         <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.submitNewQuery()" novalidate>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="dilemma.query" required></textarea>
+                    <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="mainCtrl.dilemma.query" required></textarea>
+                    
                     <span class="error" ng-show="newCtrl.showNewQueryError()">Please enter something</span>
                 </div>
             </div>
