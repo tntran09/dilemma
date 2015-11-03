@@ -12,14 +12,16 @@ gulp.task('copy_scripts', function () {
         'node_modules/jquery/dist/jquery.js',
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js'
+        'node_modules/bootstrap/dist/js/bootstrap.js',
+        'node_modules/bootstrap-slider/js/bootstrap-slider.js'
     ];
     // jquery, angular, bootstrap scripts, minified
     var minScripts = [
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/angular/angular.min.js',
         'node_modules/angular-route/angular-route.min.js',
-        'node_modules/bootstrap/dist/js/bootstrap.min.js'
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/bootstrap-slider/dist/bootstrap-slider.min.js'
     ];
 
     gulp.src(scripts)
@@ -50,10 +52,18 @@ gulp.task('copy_styles', function () {
         .pipe(gulp.dest('public/styles'));
 })
 
+gulp.task('bootstrap-slider', function () {
+    gulp.src('node_modules/bootstrap-slider/dist/css/bootstrap-slider.css ')
+        .pipe(gulp.dest('public/styles'));
+
+    gulp.src('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css')
+        .pipe(gulp.dest('public/styles'));
+})
+
 gulp.task('copy_fonts', function () {
     gulp.src('node_modules/bootstrap/dist/fonts/*')
         .pipe(gulp.dest('public/fonts'));
 })
 
-gulp.task('copy', ['copy_scripts', 'copy_styles', 'copy_fonts']);
+gulp.task('copy', ['copy_scripts', 'copy_styles', 'bootstrap-slider', 'copy_fonts']);
 gulp.task('default', ['hello']);

@@ -1,17 +1,70 @@
 ﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
     <div class="row">
-        <div class="well well-lg">
-            <h1 class="text-center">{{mainCtrl.dilemma.query}} (big font)</h1>
-            <p class="text-center">
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Calculate
-                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                </button>
-            </p>
-        </div>
+        <h1 class="text-center">{{mainCtrl.dilemma.query}}</h1>
+        <p class="text-center">
+            <button class="btn btn-lg btn-primary" type="submit">
+                Calculate
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            </button>
+        </p>
     </div>
 
-    <div class="row" ng-repeat="f in dilemma.factors">
+    <div class="row well well-lg" ng-repeat="f in mainCtrl.dilemma.factors">
 
+    </div>
+
+    <div class="row text-center">
+        <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#newFactorModal">
+            Add
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <p>{{factorsCtrl.newFactor | json}}</p>
+
+    <!-- ng-include -->
+    <div id="newFactorModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="factorsCtrl.factorForm" ng-submit="factorsCtrl.addNew()">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title text-center">New Factor</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="btn-group btn-group-justified" data-toggle="buttons">
+                            <label class="btn btn-default">
+                                <input type="radio" name="procon" value="pro" ng-model="factorsCtrl.newFactor.procon" ng-change="factorsCtrl.sayHello()" /> Pro
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" name="procon" value="con" ng-model="factorsCtrl.newFactor.procon" ng-change="factorsCtrl.sayHello()" /> Con
+                            </label>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="factorText" class="sr-only">New Factor</label>
+                            <input type="text" name="factorText" class="form-control" placeholder="Ex: buffalo wings bring me closer to my friends" ng-model="factorsCtrl.newFactor.factorText" />
+                        </div>
+
+                        <p class="text-center">Are you thinking with your head or your heart?</p>
+                        <p class="text-center">
+                            Head
+                            <label for="grade" class="sr-only">Factor Grade</label>
+                            <input type="text" name="grade" class="slider" ng-model="factorsCtrl.newFactor.grade" />
+                            Heart
+                        </p>
+                    </div>
+
+                    <button class="btn btn-block btn-primary" type="submit">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Add
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
