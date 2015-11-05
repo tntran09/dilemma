@@ -44,6 +44,8 @@
     <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="public\styles\bootstrap-slider.css" />
+    <Content Include="public\styles\bootstrap-slider.min.css" />
     <Content Include="public\styles\bootstrap.css" />
     <Content Include="public\styles\bootstrap.min.css" />
     <Content Include="public\styles\main.css" />

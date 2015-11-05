@@ -1,4 +1,4 @@
-﻿angular.module('gutCheck', ['ngRoute'])
+﻿angular.module('gutCheck', ['ngRoute', 'ui.bootstrap'])
 .config(function ($routeProvider) {
     $routeProvider.when('/new', {
         templateUrl: 'views/new.html'
@@ -12,22 +12,24 @@
 })
 .factory('dataSvc', function () {
     var _pageTitle = '';
+    //var _factors = [];
     
     return {
         get pageTitle() { return _pageTitle; },
-        set pageTitle(t) {
-            if (angular.isString(t)) {
-                _pageTitle = t;
+        set pageTitle(str) {
+            if (angular.isString(str)) {
+                _pageTitle = str;
             }
-        }
+        },
+        
+        //get factors() { return _factors; }
     };
 })
 .controller('mainCtrl', function ($location, dataSvc) {
     var mainCtrl = this;
     
     mainCtrl.dilemma = {
-        query: '',
-        factors: []
+        query: ''
     };
 
     mainCtrl.getPageTitle = dataSvc.__lookupGetter__('pageTitle');
@@ -62,7 +64,7 @@
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
     
-    newCtrl.submitNewQuery = function () {
+    newCtrl.goNext = function () {
         if (newCtrl.newForm.$valid) {
             $location.path('/factors');
         }
@@ -71,12 +73,12 @@
 .controller('factorsCtrl', function (dataSvc) {
     var factorsCtrl = this;
     
+    factorsCtrl.factors = [];
     factorsCtrl.newFactor = {
-        procon: 'pro',
+        procon: 'Pro',
         factorText: '',
         grade: 50
     };
-    var count = 0;
 
     dataSvc.pageTitle = 'FACTORS';
 
@@ -95,9 +97,19 @@
     });
     
     factorsCtrl.addNew = function () {
-        console.log("procon: " + factorsCtrl.newFactor.procon);
-        console.log("factorText: " + factorsCtrl.newFactor.factorText);
-        console.log("grade: " + factorsCtrl.newFactor.grade);
-        $('#newFactorModal').modal('hide');
+        if (factorsCtrl.factorForm.$valid) {
+            factorsCtrl.factors.push(factorsCtrl.newFactor);
+
+            factorsCtrl.newFactor = {
+                procon: 'Pro',
+                factorText: '',
+                grade: 50
+            };
+            gradeSlider.setValue(50);
+
+            $('#newFactorModal').modal('hide');
+        }
     };
+
+    //Calculate -> push the factors to dataSvc, operate on next controller?
 });

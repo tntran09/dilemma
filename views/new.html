@@ -1,6 +1,6 @@
 ﻿<div class="container" ng-controller="newCtrl as newCtrl">
     <div class="row">
-        <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.submitNewQuery()" novalidate>
+        <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.goNext()" novalidate>
             <div class="col-xs-12">
                 <div class="form-group">
                     <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="mainCtrl.dilemma.query" required></textarea>
