@@ -6,6 +6,9 @@
     .when('/factors', {
         templateUrl: 'views/factors.html'
     })
+    .when('/verdict', {
+        templateUrl: 'views/verdict.html'
+    })
     .otherwise({
         templateUrl: 'views/splash.html'
     });
@@ -73,12 +76,17 @@
 .controller('factorsCtrl', function (dataSvc) {
     var factorsCtrl = this;
     
+    var factorId = 1;
+    var editIndex = 0;
+    
     factorsCtrl.factors = [];
-    factorsCtrl.newFactor = {
+    factorsCtrl.activeFactor = {
+        id: 1,
         procon: 'Pro',
         factorText: '',
         grade: 50
     };
+    factorsCtrl.modalSubmitAction = 'Add';
 
     dataSvc.pageTitle = 'FACTORS';
 
@@ -93,23 +101,65 @@
         tooltip_position: 'bottom',
         handle: 'round'
     }).on('slideStop', function (value) {
-        factorsCtrl.newFactor.grade = value;
+        factorsCtrl.activeFactor.grade = value;
     });
     
-    factorsCtrl.addNew = function () {
+    factorsCtrl.save = function () {
         if (factorsCtrl.factorForm.$valid) {
-            factorsCtrl.factors.push(factorsCtrl.newFactor);
+            switch (factorsCtrl.modalSubmitAction) {
+                case 'Add':
+                    factorsCtrl.factors.push(factorsCtrl.activeFactor);
+                    factorId++;
+                    break;
+                case 'Edit':
+                    factorsCtrl.factors[editIndex] = angular.copy(factorsCtrl.activeFactor);
+                    editIndex = 0;
+                    break;
+            }
 
-            factorsCtrl.newFactor = {
+            factorsCtrl.activeFactor = {
+                id: factorId,
                 procon: 'Pro',
                 factorText: '',
                 grade: 50
             };
             gradeSlider.setValue(50);
 
-            $('#newFactorModal').modal('hide');
+            $('#factorModal').modal('hide');
         }
     };
+    
+    factorsCtrl.popupAdd = function () {
+        factorsCtrl.modalSubmitAction = 'Add';
 
-    //Calculate -> push the factors to dataSvc, operate on next controller?
+        factorsCtrl.activeFactor = {
+            id: factorId,
+            procon: 'Pro',
+            factorText: '',
+            grade: 50
+        };
+        gradeSlider.setValue(50);
+
+        $('#factorModal').modal('show');
+    }
+    
+    factorsCtrl.popupEdit = function (factor) {
+        factorsCtrl.modalSubmitAction = 'Edit';
+        
+        editIndex = factorsCtrl.factors.indexOf(factor);
+        factorsCtrl.activeFactor = angular.copy(factor);
+        gradeSlider.setValue(factorsCtrl.activeFactor.grade);
+
+        $('#factorModal').modal('show');
+    }
+
+    factorsCtrl.goNext = function () {
+        dataSvc.factors = factorsCtrl.factors;
+
+        $location.path('/verdict');
+    }
+
+    $('#factorModal').on('shown.bs.modal', function () {
+        $('input[name=factorText]').focus();
+    })
 });
