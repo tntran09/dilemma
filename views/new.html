@@ -1,1 +1,27 @@
-﻿
+﻿<div class="container" ng-controller="newCtrl as newCtrl">
+    <div class="row">
+        <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.goNext()" novalidate>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="mainCtrl.dilemma.query" required></textarea>
+                    
+                    <span class="error" ng-show="newCtrl.showNewQueryError()">Please enter something</span>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <p class="text-center">
+                    Tip: Yes/no dilemmas work the best
+                </p>
+                <p class="text-center">
+                    ._.
+                </p>
+                <p class="text-center">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Next
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

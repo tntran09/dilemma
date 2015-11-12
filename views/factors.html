@@ -1,0 +1,81 @@
+﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
+    <div class="row">
+        <h1 class="text-center">{{mainCtrl.dilemma.query}}</h1>
+        <p class="text-center">
+            <button class="btn btn-lg btn-primary" type="submit">
+                Calculate
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            </button>
+        </p>
+    </div>
+
+    <div class="well well lg" ng-repeat="f in factorsCtrl.factors">
+        <div class="row" ng-click="factorsCtrl.popupEdit(f)">
+            <div class="col-xs-7">
+                <small class="{{f.procon | lowercase}}">{{f.procon}}</small>
+                <p>{{f.factorText}}</p>
+            </div>
+            <div class="col-xs-5 text-right">
+                <span class="glyphicon glyphicon-flash"></span> {{f.grade}}
+                |
+                <span class="glyphicon glyphicon-heart"></span> {{100 - f.grade}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-block btn-primary" ng-click="factorsCtrl.popupAdd()">
+                Add
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ng-include -->
+    <div id="factorModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="factorsCtrl.factorForm" ng-submit="factorsCtrl.save()">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title text-center">New Factor</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="btn-group btn-group-justified" data-toggle="buttons">
+                            <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Pro'">Pro</label>
+                            <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Con'">Con</label>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="factorText" class="sr-only">New Factor</label>
+                            <input type="text" name="factorText" class="form-control" placeholder="Ex: buffalo wings bring me closer to my friends" ng-model="factorsCtrl.activeFactor.factorText" />
+                        </div>
+
+                        <p class="text-center">Are you thinking with your head or your heart?</p>
+                        <p class="text-center">
+                            Head
+                            <label for="grade" class="sr-only">Factor Grade</label>
+                            <input type="text" name="grade" class="slider" ng-model="factorsCtrl.activeFactor.grade" />
+                            Heart
+                        </p>
+                    </div>
+
+                    <ng-switch on="factorsCtrl.modalSubmitAction">
+                        <button ng-switch-when="Add" class="btn btn-block btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add
+                        </button>
+                        <button ng-switch-when="Edit" class="btn btn-block btn-primary" type="submit">
+                            Save
+                        </button>
+                    </ng-switch>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
