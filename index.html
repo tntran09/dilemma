@@ -3,7 +3,7 @@
 <html ng-app="gutCheck">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Gut Check</title>
     <link rel="stylesheet" href="public/styles/bootstrap.min.css" />
     <link rel="stylesheet" href="public/styles/main.css" />
@@ -28,7 +28,13 @@
                     </div>
                 </div>
 
-                <div class="col-xs-4"></div>
+                <div class="col-xs-4 navbar-text text-right">
+                    <div ng-show="mainCtrl.isOnNew()">
+                        <a href="{{mainCtrl.getNextUrl()}}" ng-click="mainCtrl.goNext()">
+                            Next
+                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                        </a>
+                    </div></div>
             </div>
         </div>
     </nav>

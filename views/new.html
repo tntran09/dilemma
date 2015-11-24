@@ -3,8 +3,8 @@
         <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.goNext()" novalidate>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <textarea name="query" class="form-control text-center" placeholder="placeholder" rows="4" ng-model="mainCtrl.dilemma.query" required></textarea>
-                    
+                    <textarea name="query" class="form-control text-center" placeholder="Ex. Should I order 16 buffalo wings from Papa John's?" rows="4" ng-model="mainCtrl.dilemma.query" required></textarea>
+
                     <span class="error" ng-show="newCtrl.showNewQueryError()">Please enter something</span>
                 </div>
             </div>
@@ -14,12 +14,6 @@
                 </p>
                 <p class="text-center">
                     ._.
-                </p>
-                <p class="text-center">
-                    <button class="btn btn-lg btn-primary" type="submit">
-                        Next
-                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                    </button>
                 </p>
             </div>
         </form>

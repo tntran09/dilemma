@@ -15,8 +15,8 @@
 })
 .factory('dataSvc', function () {
     var _pageTitle = '';
-    //var _factors = [];
-    
+    var _factors = [];
+
     return {
         get pageTitle() { return _pageTitle; },
         set pageTitle(str) {
@@ -24,27 +24,45 @@
                 _pageTitle = str;
             }
         },
-        
-        //get factors() { return _factors; }
+
+        get factors() { return angular.copy(_factors); },
+        set factors(arr) {
+            if (angular.isArray(arr)) {
+                _factors = angular.copy(arr);
+            }
+        }
     };
 })
 .controller('mainCtrl', function ($location, dataSvc) {
     var mainCtrl = this;
-    
+
     mainCtrl.dilemma = {
         query: ''
     };
 
     mainCtrl.getPageTitle = dataSvc.__lookupGetter__('pageTitle');
-    
+
     mainCtrl.isOnSplash = function () {
         return $location.path() === "";
+    }
+    
+    mainCtrl.isOnNew = function () {
+        return $location.path() === "/new";
     }
 
     mainCtrl.getBackUrl = function () {
         switch ($location.path()) {
             case '/new': return '#';
             case '/factors': return '#/new';
+            case '/verdict': return '#/factors';
+            default: return '#';
+        }
+    }
+
+    mainCtrl.getNextUrl = function () {
+        switch ($location.path()) {
+            case '/new': return '#/factors';
+            case '/factors': return '#/verdict';
             default: return '#';
         }
     }
@@ -66,20 +84,20 @@
     newCtrl.showNewQueryError = function () {
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
-    
+
     newCtrl.goNext = function () {
         if (newCtrl.newForm.$valid) {
             $location.path('/factors');
         }
     };
 })
-.controller('factorsCtrl', function (dataSvc) {
+.controller('factorsCtrl', function ($location, dataSvc) {
     var factorsCtrl = this;
-    
+
     var factorId = 1;
     var editIndex = 0;
-    
-    factorsCtrl.factors = [];
+
+    factorsCtrl.factors = dataSvc.factors;
     factorsCtrl.activeFactor = {
         id: 1,
         procon: 'Pro',
@@ -103,7 +121,7 @@
     }).on('slideStop', function (value) {
         factorsCtrl.activeFactor.grade = value;
     });
-    
+
     factorsCtrl.save = function () {
         if (factorsCtrl.factorForm.$valid) {
             switch (factorsCtrl.modalSubmitAction) {
@@ -128,7 +146,7 @@
             $('#factorModal').modal('hide');
         }
     };
-    
+
     factorsCtrl.popupAdd = function () {
         factorsCtrl.modalSubmitAction = 'Add';
 
@@ -142,10 +160,10 @@
 
         $('#factorModal').modal('show');
     }
-    
+
     factorsCtrl.popupEdit = function (factor) {
         factorsCtrl.modalSubmitAction = 'Edit';
-        
+
         editIndex = factorsCtrl.factors.indexOf(factor);
         factorsCtrl.activeFactor = angular.copy(factor);
         gradeSlider.setValue(factorsCtrl.activeFactor.grade);
@@ -162,4 +180,9 @@
     $('#factorModal').on('shown.bs.modal', function () {
         $('input[name=factorText]').focus();
     })
+})
+.controller('verdictCtrl', function (dataSvc) {
+    var verdictCtrl = this;
+
+    dataSvc.pageTitle = 'VERDICT';
 });
