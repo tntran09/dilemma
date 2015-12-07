@@ -16,7 +16,6 @@
                 <div class="col-xs-4 navbar-text">
                     <div ng-show="!mainCtrl.isOnSplash()">
                         <a href="{{mainCtrl.getBackUrl()}}">
-                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                             Back
                         </a>
                     </div>
@@ -30,11 +29,11 @@
 
                 <div class="col-xs-4 navbar-text text-right">
                     <div ng-show="mainCtrl.isOnNew()">
-                        <a href="{{mainCtrl.getNextUrl()}}" ng-click="mainCtrl.goNext()">
+                        <a href="{{mainCtrl.getNextUrl()}}">
                             Next
-                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                         </a>
-                    </div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
