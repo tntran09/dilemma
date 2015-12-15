@@ -9,6 +9,9 @@
     .when('/verdict', {
         templateUrl: 'views/verdict.html'
     })
+    .when('/', {
+        templateUrl: 'views/splash.html'
+    })
     .otherwise({
         templateUrl: 'views/splash.html'
     });
@@ -40,10 +43,10 @@
         query: ''
     };
 
-    mainCtrl.getPageTitle = dataSvc.__lookupGetter__('pageTitle');
+    mainCtrl.getPageTitle = Object.getOwnPropertyDescriptor(dataSvc, 'pageTitle').get;
 
     mainCtrl.isOnSplash = function () {
-        return $location.path() === "";
+        return $location.path() === "" || $location.path() === "/";
     }
     
     mainCtrl.isOnNew = function () {
@@ -80,7 +83,7 @@
     var newCtrl = this;
 
     dataSvc.pageTitle = 'NEW';
-
+    
     newCtrl.showNewQueryError = function () {
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
@@ -105,9 +108,9 @@
         grade: 50
     };
     factorsCtrl.modalSubmitAction = 'Add';
-
+    
     dataSvc.pageTitle = 'FACTORS';
-
+    
     var gradeSlider = new Slider('input.slider', {
         id: 'gradeSlider',
         min: 0,
@@ -121,7 +124,7 @@
     }).on('slideStop', function (value) {
         factorsCtrl.activeFactor.grade = value;
     });
-
+    
     factorsCtrl.save = function () {
         if (factorsCtrl.factorForm.$valid) {
             switch (factorsCtrl.modalSubmitAction) {
@@ -134,7 +137,7 @@
                     editIndex = 0;
                     break;
             }
-
+            
             factorsCtrl.activeFactor = {
                 id: factorId,
                 procon: 'Pro',
@@ -142,14 +145,15 @@
                 grade: 50
             };
             gradeSlider.setValue(50);
-
+            
             $('#factorModal').modal('hide');
         }
     };
-
+    
     factorsCtrl.popupAdd = function () {
+        console.log('popup Add now:')
         factorsCtrl.modalSubmitAction = 'Add';
-
+        
         factorsCtrl.activeFactor = {
             id: factorId,
             procon: 'Pro',
@@ -157,29 +161,29 @@
             grade: 50
         };
         gradeSlider.setValue(50);
-
+        
         $('#factorModal').modal('show');
-    }
-
+    };
+    
     factorsCtrl.popupEdit = function (factor) {
         factorsCtrl.modalSubmitAction = 'Edit';
-
+        
         editIndex = factorsCtrl.factors.indexOf(factor);
         factorsCtrl.activeFactor = angular.copy(factor);
         gradeSlider.setValue(factorsCtrl.activeFactor.grade);
-
+        
         $('#factorModal').modal('show');
-    }
-
+    };
+    
     factorsCtrl.goNext = function () {
         dataSvc.factors = factorsCtrl.factors;
-
+        
         $location.path('/verdict');
-    }
-
+    };
+    
     $('#factorModal').on('shown.bs.modal', function () {
         $('input[name=factorText]').focus();
-    })
+    });
 })
 .controller('verdictCtrl', function (dataSvc) {
     var verdictCtrl = this;
