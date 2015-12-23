@@ -3,7 +3,17 @@
         <form name="newCtrl.newForm" id="newForm" ng-submit="newCtrl.goNext()" novalidate>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <input name="query" class="form-control" placeholder="Ex. Should I order 16 buffalo wings from Papa John's?" ng-model="mainCtrl.dilemma.query" required />
+                    <div class="input-group">
+                        <input name="query" class="form-control" placeholder="Ex. Should I order 16 buffalo wings from Papa John's?" ng-model="mainCtrl.dilemma.query" required />
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </span>
+                    </div>
+
                     <span class="error" ng-show="newCtrl.showNewQueryError()">Please enter something</span>
                 </div>
             </div>

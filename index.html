@@ -15,9 +15,7 @@
             <div class="row">
                 <div class="col-xs-4 navbar-text">
                     <div ng-show="!mainCtrl.isOnSplash()">
-                        <a href="{{mainCtrl.getBackUrl()}}">
-                            Back
-                        </a>
+                        <a role="button" ng-click="mainCtrl.goBack()">Back</a>
                     </div>
                 </div>
 
@@ -28,10 +26,8 @@
                 </div>
 
                 <div class="col-xs-4 navbar-text text-right">
-                    <div ng-show="mainCtrl.isOnNew()">
-                        <a href="{{mainCtrl.getNextUrl()}}">
-                            Next
-                        </a>
+                    <div ng-show="mainCtrl.isOnFactors()">
+                        <a role="button" ng-click="mainCtrl.goNext()">Next</a>
                     </div>
                 </div>
             </div>

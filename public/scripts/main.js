@@ -49,26 +49,34 @@
         return $location.path() === "" || $location.path() === "/";
     }
     
-    mainCtrl.isOnNew = function () {
-        return $location.path() === "/new";
+    mainCtrl.isOnFactors = function () {
+        return $location.path() === "/factors";
     }
 
-    mainCtrl.getBackUrl = function () {
+    mainCtrl.goBack = function () {
+        var path = '';
+
         switch ($location.path()) {
-            case '/new': return '#';
-            case '/factors': return '#/new';
-            case '/verdict': return '#/factors';
-            default: return '#';
+            case '/new': path = '/'; break;
+            case '/factors': path = '/new'; break;
+            case '/verdict': path = '/factors'; break;
+            default: path = '/';
         }
+
+        $location.path(path);
     }
 
-    mainCtrl.getNextUrl = function () {
+    mainCtrl.goNext = function () {
+        var path = '';
+        
         switch ($location.path()) {
-            case '/new': return '#/factors';
-            case '/factors': return '#/verdict';
-            default: return '#';
+            case '/new': path = '/factors'; break;
+            case '/factors': path = '/verdict'; break;
+            default: path = '/';
         }
-    }
+        
+        $location.path(path);
+    };
 })
 .controller('splashCtrl', function ($location, dataSvc) {
     var splashCtrl = this;
