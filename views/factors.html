@@ -1,11 +1,11 @@
 ﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
     <div class="row">
-        <h1 class="text-center">{{mainCtrl.dilemma.query}}</h1>
+        <h1 class="text-center">?: {{mainCtrl.dilemma.query}}</h1>
         <p class="text-center">
-            <button class="btn btn-lg btn-primary" type="button" ng-click="factorsCtrl.goNext()">
+            <!--<button class="btn btn-lg btn-primary" type="button" ng-click="factorsCtrl.goNext()">
                 Calculate
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-            </button>
+            </button>-->
         </p>
     </div>
 
@@ -45,11 +45,13 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="btn-group btn-group-justified" data-toggle="buttons">
+                        <!-- TODO: Vote for one of the existing choices via dropdown or select box -->
+
+                        <!--<div class="btn-group btn-group-justified" data-toggle="buttons">
                             <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Pro'">Pro</label>
                             <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Con'">Con</label>
-                        </div>
-
+                        </div>-->
+                        <!-- TODO: Assign importance of this factor along slider or carousel -->
 
                         <div class="form-group">
                             <label for="factorText" class="sr-only">New Factor</label>

@@ -3,6 +3,9 @@
     $routeProvider.when('/new', {
         templateUrl: 'views/new.html'
     })
+    .when('/choices', {
+        templateUrl: 'views/choices.html'
+    })
     .when('/factors', {
         templateUrl: 'views/factors.html'
     })
@@ -36,7 +39,47 @@
         }
     };
 })
-.controller('mainCtrl', function ($location, dataSvc) {
+.factory('navigatorSvc', function ($location) {
+    var _goBackOverride = null;
+    var _goNextOverride = null;
+
+    return {
+        get getBackFn() {
+            return _goBackOverride || function () {
+                var path = '';
+                
+                switch ($location.path()) {
+                    case '/new': path = '/'; break;
+                    case '/choices': path = '/new'; break;
+                    case '/factors': path = '/choices'; break;
+                    case '/verdict': path = '/factors'; break;
+                    default: path = '/';
+                }
+                
+                $location.path(path);
+            }
+        },
+        set getBackFn(fn) { _goBackOverride = fn; },
+
+        get getNextFn() {
+            return _goNextOverride || function () {
+                var path = '';
+                
+                switch ($location.path()) {
+                    case '/': path = '/new'; break;
+                    case '/new': path = '/choices'; break;
+                    case '/choices': path = '/factors'; break;
+                    case '/factors': path = '/verdict'; break;
+                    default: path = '/';
+                }
+                
+                $location.path(path);
+            }
+        },
+        set getNextFn(fn) { _goNextOverride = fn; }
+    }
+})
+.controller('mainCtrl', function ($location, dataSvc, navigatorSvc) {
     var mainCtrl = this;
 
     mainCtrl.dilemma = {
@@ -49,76 +92,73 @@
         return $location.path() === "" || $location.path() === "/";
     }
     
-    mainCtrl.isOnFactors = function () {
-        return $location.path() === "/factors";
+    mainCtrl.isOnVerdict = function () {
+        return $location.path() === "/verdict";
     }
-
-    mainCtrl.goBack = function () {
-        var path = '';
-
-        switch ($location.path()) {
-            case '/new': path = '/'; break;
-            case '/factors': path = '/new'; break;
-            case '/verdict': path = '/factors'; break;
-            default: path = '/';
-        }
-
-        $location.path(path);
-    }
-
-    mainCtrl.goNext = function () {
-        var path = '';
-        
-        switch ($location.path()) {
-            case '/new': path = '/factors'; break;
-            case '/factors': path = '/verdict'; break;
-            default: path = '/';
-        }
-        
-        $location.path(path);
-    };
+    
+    mainCtrl.getBackFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getBackFn').get;
+    mainCtrl.getNextFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getNextFn').get;
 })
-.controller('splashCtrl', function ($location, dataSvc) {
+.controller('splashCtrl', function (dataSvc, navigatorSvc) {
     var splashCtrl = this;
 
     dataSvc.pageTitle = 'DILEMMA';
+    navigatorSvc.getBackFn = null;
+    navigatorSvc.getNextFn = null;
 
-    splashCtrl.goNext = function () {
-        $location.path('/new');
-    }
+    splashCtrl.goNext = navigatorSvc.getNextFn;
 })
-.controller('newCtrl', function ($location, dataSvc) {
+.controller('newCtrl', function ($location, dataSvc, navigatorSvc) {
     var newCtrl = this;
 
     dataSvc.pageTitle = 'NEW';
     
+    navigatorSvc.getBackFn = null;
+    navigatorSvc.getNextFn = function () {
+        if (newCtrl.newForm.$valid) {
+            $location.path('/choices');
+        }
+    };
+    newCtrl.goNext = navigatorSvc.getNextFn;
+    
     newCtrl.showNewQueryError = function () {
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
-
-    newCtrl.goNext = function () {
-        if (newCtrl.newForm.$valid) {
-            $location.path('/factors');
-        }
-    };
 })
-.controller('factorsCtrl', function ($location, dataSvc) {
+.controller('choicesCtrl', function (dataSvc, navigatorSvc) {
+    var choicesCtrl = this;
+
+    dataSvc.pageTitle = 'CHOICES';
+    navigatorSvc.getBackFn = null;
+    navigatorSvc.getNextFn = null;
+})
+.controller('factorsCtrl', function ($location, dataSvc, navigatorSvc) {
     var factorsCtrl = this;
+    
+    dataSvc.pageTitle = 'FACTORS';
+    navigatorSvc.getBackFn = null;
+    navigatorSvc.getNextFn = function () {
+        dataSvc.factors = factorsCtrl.factors;
+        $location.path('/verdict');
+    };
+    factorsCtrl.goNext = navigatorSvc.getNextFn;
 
     var factorId = 1;
     var editIndex = 0;
 
     factorsCtrl.factors = dataSvc.factors;
+    // TODO: remove 'procon' attribute to measure things on degree of importance
     factorsCtrl.activeFactor = {
         id: 1,
+        // selectedChoice
         procon: 'Pro',
         factorText: '',
-        grade: 50
+        grade: 50 //emotionalGrade
+        // importanceGrade
     };
     factorsCtrl.modalSubmitAction = 'Add';
     
-    dataSvc.pageTitle = 'FACTORS';
-    
+    // TODO: remove bootstrap slider in favor of doing carousel or something else
     var gradeSlider = new Slider('input.slider', {
         id: 'gradeSlider',
         min: 0,
@@ -146,6 +186,7 @@
                     break;
             }
             
+            // TODO: copy initialization of new factor as above
             factorsCtrl.activeFactor = {
                 id: factorId,
                 procon: 'Pro',
@@ -162,6 +203,7 @@
         console.log('popup Add now:')
         factorsCtrl.modalSubmitAction = 'Add';
         
+        // TODO: copy initialization of new factor as above
         factorsCtrl.activeFactor = {
             id: factorId,
             procon: 'Pro',
@@ -181,12 +223,6 @@
         gradeSlider.setValue(factorsCtrl.activeFactor.grade);
         
         $('#factorModal').modal('show');
-    };
-    
-    factorsCtrl.goNext = function () {
-        dataSvc.factors = factorsCtrl.factors;
-        
-        $location.path('/verdict');
     };
     
     $('#factorModal').on('shown.bs.modal', function () {

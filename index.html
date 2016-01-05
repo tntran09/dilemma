@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-xs-4 navbar-text">
                     <div ng-show="!mainCtrl.isOnSplash()">
-                        <a role="button" ng-click="mainCtrl.goBack()">Back</a>
+                        <a role="button" ng-click="mainCtrl.getBackFn()()">Back</a>
                     </div>
                 </div>
 
@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="col-xs-4 navbar-text text-right">
-                    <div ng-show="mainCtrl.isOnFactors()">
-                        <a role="button" ng-click="mainCtrl.goNext()">Next</a>
+                    <div ng-show="!mainCtrl.isOnVerdict()">
+                        <a role="button" ng-click="mainCtrl.getNextFn()()">Next</a>
                     </div>
                 </div>
             </div>
