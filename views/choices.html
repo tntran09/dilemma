@@ -1,13 +1,38 @@
-﻿<!-- TODO: Add single list of choices, bind to dataSvc -->
-<div class="container" ng-controller="choicesCtrl as choicesCtrl">
+﻿<div class="container" ng-controller="choicesCtrl as choicesCtrl">
     <div class="row">
+        <form name="choicesCtrl.newForm" id="newForm" ng-submit="choicesCtrl.addChoice()" novalidate>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="choice" class="form-control" placeholder="Add a choice..." ng-model="choicesCtrl.newChoice" required autofocus />
 
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <span class="sr-only">Add</span>
+                            </button>
+                        </span>
+                    </div>
+
+                    <div class="error" ng-show="choicesCtrl.showNewChoiceError()">Please enter something</div>
+                    <div class="error" ng-show="choicesCtrl.showDuplicateChoiceError()">Choice already exists</div>
+                    <div class="error" ng-show="choicesCtrl.showChoicesCountError()">Please enter 2 or more choices</div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <ul>
-                <li ng-repeat="c in choicesCtrl.choices">{{c}}</li>
+            <ul class="list-group">
+                <li ng-repeat="c in choicesCtrl.choices" class="list-group-item">
+                    {{c}}
+                    <span class="text-right">
+                        <button type="button" class="close" ng-click="choicesCtrl.deleteChoice($index)" aria-label="Delete">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </span>
+                </li>
             </ul>
         </div>
     </div>

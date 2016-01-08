@@ -1,6 +1,6 @@
 ﻿[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
 
-span.error {
+div.error {
     color: red;
     font-weight: bold;
 }

@@ -21,6 +21,7 @@
 })
 .factory('dataSvc', function () {
     var _pageTitle = '';
+    var _choices = [];
     var _factors = [];
 
     return {
@@ -28,6 +29,13 @@
         set pageTitle(str) {
             if (angular.isString(str)) {
                 _pageTitle = str;
+            }
+        },
+        
+        get choices() { return _choices; },
+        set choices(arr) {
+            if (angular.isArray(arr)) {
+                _choices = angular.copy(arr);
             }
         },
 
@@ -44,6 +52,7 @@
     var _goNextOverride = null;
 
     return {
+        // TODO: remove if back function is never overridden
         get getBackFn() {
             return _goBackOverride || function () {
                 var path = '';
@@ -59,6 +68,7 @@
                 $location.path(path);
             }
         },
+        // TODO: change name to clarify write-only variable
         set getBackFn(fn) { _goBackOverride = fn; },
 
         get getNextFn() {
@@ -76,6 +86,7 @@
                 $location.path(path);
             }
         },
+        // TODO: change name
         set getNextFn(fn) { _goNextOverride = fn; }
     }
 })
@@ -112,25 +123,73 @@
     var newCtrl = this;
 
     dataSvc.pageTitle = 'NEW';
-    
     navigatorSvc.getBackFn = null;
     navigatorSvc.getNextFn = function () {
         if (newCtrl.newForm.$valid) {
             $location.path('/choices');
         }
     };
+
     newCtrl.goNext = navigatorSvc.getNextFn;
     
     newCtrl.showNewQueryError = function () {
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
+
+    newCtrl.doSomething = function (arg) {
+        console.log(arg);
+    }
 })
-.controller('choicesCtrl', function (dataSvc, navigatorSvc) {
+.controller('choicesCtrl', function ($location, dataSvc, navigatorSvc) {
     var choicesCtrl = this;
+    var _attemptedNext = false;
 
     dataSvc.pageTitle = 'CHOICES';
     navigatorSvc.getBackFn = null;
-    navigatorSvc.getNextFn = null;
+    navigatorSvc.getNextFn = function () {
+        _attemptedNext = true;
+
+        if (choicesCtrl.choices.length >= 2) {
+            dataSvc.choices = choicesCtrl.choices;
+            $location.path('/factors');
+        }
+    };
+    
+    choicesCtrl.goNext = navigatorSvc.getNextFn;
+
+    choicesCtrl.newChoice = '';
+    choicesCtrl.choices = dataSvc.choices;
+    
+    choicesCtrl.showChoicesCountError = function () {
+        return choicesCtrl.choices.length < 2 && _attemptedNext;
+    };
+    choicesCtrl.showNewChoiceError = function () {
+        return choicesCtrl.newForm.choice.$error.required && (choicesCtrl.newForm.$submitted || choicesCtrl.newForm.choice.$dirty)
+    };
+    choicesCtrl.showDuplicateChoiceError = function () {
+        return choicesCtrl.choices.indexOf(choicesCtrl.newChoice) !== -1;
+    }
+
+    choicesCtrl.addChoice = function () {
+        if (choicesCtrl.newChoice.length > 0) {
+            if (choicesCtrl.choices.indexOf(choicesCtrl.newChoice) === -1) {
+                choicesCtrl.choices.push(choicesCtrl.newChoice);
+                choicesCtrl.newChoice = '';
+                choicesCtrl.newForm.$setPristine();
+                $('input[name=choice]').focus();
+            }
+            else {
+                // duplicate
+                $('input[name=choice]').focus();
+            }
+        }
+    };
+    choicesCtrl.deleteChoice = function (index) {
+        var temp = angular.copy(choicesCtrl.choices);
+        choicesCtrl.choices = []
+            .concat(temp.splice(0, index))
+            .concat(temp.splice(1));
+    }
 })
 .controller('factorsCtrl', function ($location, dataSvc, navigatorSvc) {
     var factorsCtrl = this;
@@ -141,6 +200,7 @@
         dataSvc.factors = factorsCtrl.factors;
         $location.path('/verdict');
     };
+
     factorsCtrl.goNext = navigatorSvc.getNextFn;
 
     var factorId = 1;
@@ -225,9 +285,9 @@
         $('#factorModal').modal('show');
     };
     
-    $('#factorModal').on('shown.bs.modal', function () {
-        $('input[name=factorText]').focus();
-    });
+    //$('#factorModal').on('shown.bs.modal', function () {
+    //    $('input[name=factorText]').focus();
+    //});
 })
 .controller('verdictCtrl', function (dataSvc) {
     var verdictCtrl = this;
