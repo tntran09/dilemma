@@ -13,7 +13,6 @@ gulp.task('copy_scripts', function () {
         'node_modules/angular/angular.js',
         'node_modules/angular-route/angular-route.js',
         'node_modules/bootstrap/dist/js/bootstrap.js',
-        'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js',
         'node_modules/bootstrap-slider/js/bootstrap-slider.js'
     ];
     // jquery, angular, bootstrap scripts, minified
@@ -22,7 +21,6 @@ gulp.task('copy_scripts', function () {
         'node_modules/angular/angular.min.js',
         'node_modules/angular-route/angular-route.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
-        'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
         'node_modules/bootstrap-slider/dist/bootstrap-slider.min.js'
     ];
 

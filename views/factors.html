@@ -1,24 +1,18 @@
 ﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
     <div class="row">
         <h1 class="text-center">?: {{mainCtrl.dilemma.query}}</h1>
-        <p class="text-center">
-            <!--<button class="btn btn-lg btn-primary" type="button" ng-click="factorsCtrl.goNext()">
-                Calculate
-                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-            </button>-->
-        </p>
     </div>
 
     <div class="well well lg" ng-repeat="f in factorsCtrl.factors">
         <div class="row" ng-click="factorsCtrl.popupEdit(f)">
             <div class="col-xs-7">
-                <small class="{{f.procon | lowercase}}">{{f.procon}}</small>
                 <p>{{f.factorText}}</p>
+                <p>Importance: {{f.importanceGrade}}</p>
             </div>
             <div class="col-xs-5 text-right">
-                <span class="glyphicon glyphicon-flash"></span> {{f.grade}}
+                <span class="glyphicon glyphicon-flash"></span> {{f.emotionalGrade}}
                 |
-                <span class="glyphicon glyphicon-heart"></span> {{100 - f.grade}}
+                <span class="glyphicon glyphicon-heart"></span> {{100 - f.emotionalGrade}}
             </div>
         </div>
     </div>
@@ -46,25 +40,43 @@
 
                     <div class="modal-body">
                         <!-- TODO: Vote for one of the existing choices via dropdown or select box -->
-
-                        <!--<div class="btn-group btn-group-justified" data-toggle="buttons">
-                            <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Pro'">Pro</label>
-                            <label class="btn btn-default" ng-model="factorsCtrl.activeFactor.procon" uib-btn-radio="'Con'">Con</label>
+                        <!--<div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="choiceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                something
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="choiceDropdown">
+                                <li ng-repeat="c in factorsCtrl.choices">{{c}}</li>
+                            </ul>
                         </div>-->
-                        <!-- TODO: Assign importance of this factor along slider or carousel -->
-
+                        
                         <div class="form-group">
                             <label for="factorText" class="sr-only">New Factor</label>
-                            <input type="text" name="factorText" class="form-control" placeholder="Ex: buffalo wings bring me closer to my friends" ng-model="factorsCtrl.activeFactor.factorText" />
+                            <input type="text" name="factorText" class="form-control" placeholder="Ex: rent in New York is ridic" ng-model="factorsCtrl.activeFactor.factorText" />
                         </div>
 
-                        <p class="text-center">Are you thinking with your head or your heart?</p>
-                        <p class="text-center">
-                            Head
-                            <label for="grade" class="sr-only">Factor Grade</label>
-                            <input type="text" name="grade" class="slider" ng-model="factorsCtrl.activeFactor.grade" />
-                            Heart
-                        </p>
+                        <div class="panel">
+                            <div class="panel-body">
+                                <p class="text-center">Are you thinking with your head or your heart?</p>
+                                <p class="text-center">
+                                    Head
+                                    <label for="emotionalGrade" class="sr-only">Emotional Grade</label>
+                                    <input type="text" name="emotionalGrade" id="emotionalGrade" class="slider" ng-model="factorsCtrl.activeFactor.emotionalGrade" />
+                                    Heart
+                                </p>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-body">
+                                <p class="text-center">How important is this factor to you?</p>
+                                <p class="text-center">
+                                    Low
+                                    <label for="importanceGrade" class="sr-only">Importance Grade</label>
+                                    <input type="text" name="importanceGrade" id="importanceGrade" class="slider" ng-model="factorsCtrl.activeFactor.importanceGrade" />
+                                    High
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <ng-switch on="factorsCtrl.modalSubmitAction">

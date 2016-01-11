@@ -1,4 +1,4 @@
-﻿angular.module('gutCheck', ['ngRoute', 'ui.bootstrap'])
+﻿angular.module('gutCheck', ['ngRoute'])
 .config(function ($routeProvider) {
     $routeProvider.when('/new', {
         templateUrl: 'views/new.html'
@@ -207,20 +207,19 @@
     var editIndex = 0;
 
     factorsCtrl.factors = dataSvc.factors;
-    // TODO: remove 'procon' attribute to measure things on degree of importance
+    factorsCtrl.choices = dataSvc.choices;
     factorsCtrl.activeFactor = {
         id: 1,
-        // selectedChoice
-        procon: 'Pro',
+        selectedChoice: 0,
         factorText: '',
-        grade: 50 //emotionalGrade
-        // importanceGrade
+        emotionalGrade: 50,
+        importanceGrade: 50
     };
     factorsCtrl.modalSubmitAction = 'Add';
     
     // TODO: remove bootstrap slider in favor of doing carousel or something else
-    var gradeSlider = new Slider('input.slider', {
-        id: 'gradeSlider',
+    var emotionalGradeSlider = new Slider('input#emotionalGrade', {
+        id: 'emotionalGrade',
         min: 0,
         max: 100,
         step: 1,
@@ -230,7 +229,20 @@
         tooltip_position: 'bottom',
         handle: 'round'
     }).on('slideStop', function (value) {
-        factorsCtrl.activeFactor.grade = value;
+        factorsCtrl.activeFactor.emotionalGrade = value;
+    });
+    var importanceGradeSlider = new Slider('input#importanceGrade', {
+        id: 'importanceGrade',
+        min: 0,
+        max: 100,
+        step: 1,
+        value: 50,
+        selection: 'before',
+        tooltip: 'show',
+        tooltip_position: 'bottom',
+        handle: 'round'
+    }).on('slideStop', function (value) {
+        factorsCtrl.activeFactor.importanceGrade = value;
     });
     
     factorsCtrl.save = function () {
@@ -246,31 +258,32 @@
                     break;
             }
             
-            // TODO: copy initialization of new factor as above
             factorsCtrl.activeFactor = {
                 id: factorId,
-                procon: 'Pro',
+                selectedChoice: 0,
                 factorText: '',
-                grade: 50
+                emotionalGrade: 50,
+                importanceGrade: 50
             };
-            gradeSlider.setValue(50);
+            emotionalGradeSlider.setValue(50);
+            importanceGradeSlider.setValue(50);
             
             $('#factorModal').modal('hide');
         }
     };
     
     factorsCtrl.popupAdd = function () {
-        console.log('popup Add now:')
         factorsCtrl.modalSubmitAction = 'Add';
         
-        // TODO: copy initialization of new factor as above
         factorsCtrl.activeFactor = {
             id: factorId,
-            procon: 'Pro',
+            selectedChoice: 0,
             factorText: '',
-            grade: 50
+            emotionalGrade: 50,
+            importanceGrade: 50
         };
-        gradeSlider.setValue(50);
+        emotionalGradeSlider.setValue(50);
+        importanceGradeSlider.setValue(50);
         
         $('#factorModal').modal('show');
     };
@@ -280,7 +293,8 @@
         
         editIndex = factorsCtrl.factors.indexOf(factor);
         factorsCtrl.activeFactor = angular.copy(factor);
-        gradeSlider.setValue(factorsCtrl.activeFactor.grade);
+        emotionalGradeSlider.setValue(factorsCtrl.activeFactor.emotionalGrade);
+        importanceGradeSlider.setValue(factorsCtrl.activeFactor.importanceGrade);
         
         $('#factorModal').modal('show');
     };
