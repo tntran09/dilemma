@@ -1,5 +1,10 @@
 ﻿[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
 
+.form-control::-ms-expand{
+    background-color:transparent;
+    border:0;
+}
+
 div.error {
     color: red;
     font-weight: bold;

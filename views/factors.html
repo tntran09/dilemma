@@ -35,20 +35,12 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title text-center">New Factor</h4>
+                        <h4 class="modal-title text-center">{{mainCtrl.dilemma.query}}</h4>
                     </div>
 
                     <div class="modal-body">
-                        <!-- TODO: Vote for one of the existing choices via dropdown or select box -->
-                        <!--<div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="choiceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                something
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="choiceDropdown">
-                                <li ng-repeat="c in factorsCtrl.choices">{{c}}</li>
-                            </ul>
-                        </div>-->
+                        <select name="selectedChoice" class="form-control" ng-options="factorsCtrl.choices.indexOf(c) as c for c in factorsCtrl.choices" ng-model="factorsCtrl.activeFactor.selectedChoice">
+                        </select>
                         
                         <div class="form-group">
                             <label for="factorText" class="sr-only">New Factor</label>
