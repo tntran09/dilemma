@@ -1,6 +1,6 @@
 ﻿<div class="container" ng-controller="factorsCtrl as factorsCtrl">
     <div class="row">
-        <h1 class="text-center">?: {{mainCtrl.dilemma.query}}</h1>
+        <h1 class="text-center">?: {{factorsCtrl.query}}</h1>
     </div>
 
     <div class="well well lg" ng-repeat="f in factorsCtrl.factors">
@@ -35,7 +35,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title text-center">{{mainCtrl.dilemma.query}}</h4>
+                        <h4 class="modal-title text-center">{{factorsCtrl.query}}</h4>
                     </div>
 
                     <div class="modal-body">

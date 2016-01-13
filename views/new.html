@@ -4,7 +4,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="input-group">
-                        <input name="query" class="form-control" placeholder="Ex. Should I order 16 buffalo wings from Papa John's?" ng-model="mainCtrl.dilemma.query" required />
+                        <input name="query" class="form-control" placeholder="Ex. Should I order 16 buffalo wings from Papa John's?" ng-model="newCtrl.query" required />
 
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
@@ -21,12 +21,9 @@
 
         <div class="col-xs-12">
             <h4>EXAMPLE DILEMMAS</h4>
-            <ul>
-                <!-- TODO: make list items clickable -->
-                <li>What toppings should I get on my pizza?</li>
-                <li>Where should I have my midlife crisis?</li>
-                <li>Where should I move to?</li>
-            </ul>
+            <div class="list-group">
+                <a href="" class="list-group-item" role="button" ng-repeat="e in newCtrl.examples" ng-click="newCtrl.autoFillQuery(e)">{{e}}</a>
+            </div>
             <p class="text-center">
                 ._.
             </p>

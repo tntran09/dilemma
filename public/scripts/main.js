@@ -21,6 +21,7 @@
 })
 .factory('dataSvc', function () {
     var _pageTitle = '';
+    var _query = '';
     var _choices = [];
     var _factors = [];
 
@@ -32,7 +33,14 @@
             }
         },
         
-        get choices() { return _choices; },
+        get query() { return _query; },
+        set query(str) {
+            if (angular.isString(str)) {
+                _query = str;
+            }
+        },
+        
+        get choices() { return angular.copy(_choices); },
         set choices(arr) {
             if (angular.isArray(arr)) {
                 _choices = angular.copy(arr);
@@ -52,7 +60,6 @@
     var _goNextOverride = null;
 
     return {
-        // TODO: remove if back function is never overridden
         get getBackFn() {
             return _goBackOverride || function () {
                 var path = '';
@@ -93,11 +100,9 @@
 .controller('mainCtrl', function ($location, dataSvc, navigatorSvc) {
     var mainCtrl = this;
 
-    mainCtrl.dilemma = {
-        query: ''
-    };
-
     mainCtrl.getPageTitle = Object.getOwnPropertyDescriptor(dataSvc, 'pageTitle').get;
+    mainCtrl.getBackFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getBackFn').get;
+    mainCtrl.getNextFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getNextFn').get;
 
     mainCtrl.isOnSplash = function () {
         return $location.path() === "" || $location.path() === "/";
@@ -106,9 +111,6 @@
     mainCtrl.isOnVerdict = function () {
         return $location.path() === "/verdict";
     }
-    
-    mainCtrl.getBackFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getBackFn').get;
-    mainCtrl.getNextFn = Object.getOwnPropertyDescriptor(navigatorSvc, 'getNextFn').get;
 })
 .controller('splashCtrl', function (dataSvc, navigatorSvc) {
     var splashCtrl = this;
@@ -126,18 +128,26 @@
     navigatorSvc.getBackFn = null;
     navigatorSvc.getNextFn = function () {
         if (newCtrl.newForm.$valid) {
+            dataSvc.query = newCtrl.query;
             $location.path('/choices');
         }
     };
 
     newCtrl.goNext = navigatorSvc.getNextFn;
     
+    newCtrl.query = dataSvc.query;
+    newCtrl.examples = [
+        'What toppings should I get on my pizza?',
+        'Where should I have my midlife crisis?',
+        'Where should I move to?'
+    ];
+    
     newCtrl.showNewQueryError = function () {
         return newCtrl.newForm.query.$error.required && (newCtrl.newForm.$submitted || newCtrl.newForm.query.$dirty);
     };
 
-    newCtrl.doSomething = function (arg) {
-        console.log(arg);
+    newCtrl.autoFillQuery = function (example) {
+        newCtrl.query = example
     }
 })
 .controller('choicesCtrl', function ($location, dataSvc, navigatorSvc) {
@@ -145,7 +155,10 @@
     var _attemptedNext = false;
 
     dataSvc.pageTitle = 'CHOICES';
-    navigatorSvc.getBackFn = null;
+    navigatorSvc.getBackFn = function () {
+        dataSvc.choices = choicesCtrl.choices;
+        $location.path('/new');
+    };
     navigatorSvc.getNextFn = function () {
         _attemptedNext = true;
 
@@ -155,10 +168,8 @@
         }
     };
     
-    choicesCtrl.goNext = navigatorSvc.getNextFn;
-
-    choicesCtrl.newChoice = '';
     choicesCtrl.choices = dataSvc.choices;
+    choicesCtrl.newChoice = '';
     
     choicesCtrl.showChoicesCountError = function () {
         return choicesCtrl.choices.length < 2 && _attemptedNext;
@@ -179,13 +190,13 @@
                 $('input[name=choice]').focus();
             }
             else {
-                // duplicate
+                // duplicate choice
                 $('input[name=choice]').focus();
             }
         }
     };
     choicesCtrl.deleteChoice = function (index) {
-        var temp = angular.copy(choicesCtrl.choices);
+        var temp = choicesCtrl.choices;
         choicesCtrl.choices = []
             .concat(temp.splice(0, index))
             .concat(temp.splice(1));
@@ -195,7 +206,7 @@
     var factorsCtrl = this;
     
     dataSvc.pageTitle = 'FACTORS';
-    navigatorSvc.getBackFn = null;
+    navigatorSvc.getBackFn = null; // TODO: preserve factors here
     navigatorSvc.getNextFn = function () {
         dataSvc.factors = factorsCtrl.factors;
         $location.path('/verdict');
@@ -205,9 +216,10 @@
 
     var factorId = 1;
     var editIndex = 0;
-
-    factorsCtrl.factors = dataSvc.factors;
+    
+    factorsCtrl.query = dataSvc.query;
     factorsCtrl.choices = dataSvc.choices;
+    factorsCtrl.factors = dataSvc.factors;
     factorsCtrl.activeFactor = {
         id: 1,
         selectedChoice: 0,
