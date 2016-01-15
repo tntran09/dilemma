@@ -75,8 +75,7 @@
                 $location.path(path);
             }
         },
-        // TODO: change name to clarify write-only variable
-        set getBackFn(fn) { _goBackOverride = fn; },
+        set backFnOverride(fn) { _goBackOverride = fn; },
 
         get getNextFn() {
             return _goNextOverride || function () {
@@ -93,8 +92,7 @@
                 $location.path(path);
             }
         },
-        // TODO: change name
-        set getNextFn(fn) { _goNextOverride = fn; }
+        set nextFnOverride(fn) { _goNextOverride = fn; }
     }
 })
 .controller('mainCtrl', function ($location, dataSvc, navigatorSvc) {
@@ -116,17 +114,19 @@
     var splashCtrl = this;
 
     dataSvc.pageTitle = 'DILEMMA';
-    navigatorSvc.getBackFn = null;
-    navigatorSvc.getNextFn = null;
+    navigatorSvc.backFnOverride = null;
+    navigatorSvc.nextFnOverride = null;
 
     splashCtrl.goNext = navigatorSvc.getNextFn;
 })
 .controller('newCtrl', function ($location, dataSvc, navigatorSvc) {
     var newCtrl = this;
 
-    dataSvc.pageTitle = 'NEW';
-    navigatorSvc.getBackFn = null;
-    navigatorSvc.getNextFn = function () {
+    dataSvc.pageTitle = 'DILEMMA';
+    navigatorSvc.backFnOverride = null;
+    navigatorSvc.nextFnOverride = function () {
+        newCtrl.newForm.$setSubmitted();
+
         if (newCtrl.newForm.$valid) {
             dataSvc.query = newCtrl.query;
             $location.path('/choices');
@@ -155,15 +155,14 @@
     var _attemptedNext = false;
 
     dataSvc.pageTitle = 'CHOICES';
-    navigatorSvc.getBackFn = function () {
+    navigatorSvc.backFnOverride = function () {
         dataSvc.choices = choicesCtrl.choices;
         $location.path('/new');
     };
-    navigatorSvc.getNextFn = function () {
+    navigatorSvc.nextFnOverride = function () {
         _attemptedNext = true;
 
         if (choicesCtrl.choices.length >= 2) {
-            dataSvc.choices = choicesCtrl.choices;
             $location.path('/factors');
         }
     };
@@ -188,6 +187,7 @@
                 choicesCtrl.newChoice = '';
                 choicesCtrl.newForm.$setPristine();
                 $('input[name=choice]').focus();
+                dataSvc.choices = choicesCtrl.choices;
             }
             else {
                 // duplicate choice
@@ -206,9 +206,9 @@
     var factorsCtrl = this;
     
     dataSvc.pageTitle = 'FACTORS';
-    navigatorSvc.getBackFn = null; // TODO: preserve factors here
-    navigatorSvc.getNextFn = function () {
-        dataSvc.factors = factorsCtrl.factors;
+    navigatorSvc.backFnOverride = null;
+    navigatorSvc.nextFnOverride = function () {
+        // if factorsCtrl.factors.length > 0
         $location.path('/verdict');
     };
 
@@ -279,6 +279,7 @@
             };
             emotionalGradeSlider.setValue(50);
             importanceGradeSlider.setValue(50);
+            dataSvc.factors = factorsCtrl.factors;
             
             $('#factorModal').modal('hide');
         }
