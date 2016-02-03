@@ -10,9 +10,9 @@
                 <p>Importance: {{f.importanceGrade}}</p>
             </div>
             <div class="col-xs-5 text-right">
-                <span class="glyphicon glyphicon-flash"></span> {{f.emotionalGrade}}
+                <span class="glyphicon glyphicon-flash"></span> {{100 - f.emotionalGrade}}
                 |
-                <span class="glyphicon glyphicon-heart"></span> {{100 - f.emotionalGrade}}
+                <span class="glyphicon glyphicon-heart"></span> {{f.emotionalGrade}}
             </div>
         </div>
     </div>
